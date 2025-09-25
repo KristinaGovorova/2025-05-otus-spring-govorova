@@ -14,7 +14,7 @@ public class AppConfig {
 
     @Bean
     public AppProperties appProperties() {
-        return new AppProperties();
+        return new AppProperties(3, "questions.csv");
     }
 
     @Bean
