@@ -7,7 +7,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import ru.otus.hw.service.TestRunnerService;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest
 public class ApplicationCommandsTest {
     @MockitoBean
     private TestRunnerService testRunnerService;

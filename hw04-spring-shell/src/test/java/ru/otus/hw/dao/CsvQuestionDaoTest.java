@@ -7,7 +7,7 @@ import org.springframework.test.context.TestPropertySource;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest
 @TestPropertySource(properties = {
         "test.locale=en-US"
 })

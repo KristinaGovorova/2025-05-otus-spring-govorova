@@ -18,7 +18,7 @@ import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest
 class TestServiceImplTest {
 
     @MockitoBean

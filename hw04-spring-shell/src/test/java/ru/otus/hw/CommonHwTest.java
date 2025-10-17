@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@SpringBootTest(properties = {"spring.shell.interactive.enabled=false"})
+@SpringBootTest
 class CommonHwTest {
 
     @Test
