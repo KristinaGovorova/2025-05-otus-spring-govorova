@@ -13,7 +13,6 @@ import ru.otus.hw.models.Genre;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,6 +22,8 @@ import java.util.Optional;
 public class JdbcBookRepository implements BookRepository {
 
     private final NamedParameterJdbcTemplate jdbcTemplate;
+    private final JdbcAuthorRepository authorRepository;
+    private final JdbcGenreRepository genreRepository;
 
     @Override
     public Optional<Book> findById(long id) {
@@ -75,6 +76,14 @@ public class JdbcBookRepository implements BookRepository {
     }
 
     private Book insert(Book book) {
+        if (authorRepository.findById(book.getAuthor().getId()).isEmpty()) {
+            throw new EntityNotFoundException("Author with id %d not found".formatted(book.getAuthor().getId()));
+        }
+
+        if (genreRepository.findById(book.getGenre().getId()).isEmpty()) {
+            throw new EntityNotFoundException("Genre with id %d not found".formatted(book.getGenre().getId()));
+        }
+
         var keyHolder = new GeneratedKeyHolder();
         var params = new MapSqlParameterSource();
         params.addValue("title", book.getTitle());
@@ -92,7 +101,21 @@ public class JdbcBookRepository implements BookRepository {
         return book;
     }
 
-    private Book update(Book book) {
+    Book update(Book book) {
+        findById(book.getId());
+
+        if (findById(book.getId()).isEmpty()) {
+            throw new EntityNotFoundException("Book with id %d not found".formatted(book.getId()));
+        }
+
+        if (authorRepository.findById(book.getAuthor().getId()).isEmpty()) {
+            throw new EntityNotFoundException("Author with id %d not found".formatted(book.getAuthor().getId()));
+        }
+
+        if (genreRepository.findById(book.getGenre().getId()).isEmpty()) {
+            throw new EntityNotFoundException("Genre with id %d not found".formatted(book.getGenre().getId()));
+        }
+
         var params = new MapSqlParameterSource();
         params.addValue("id", book.getId());
         params.addValue("title", book.getTitle());
