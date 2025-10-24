@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
+import ru.otus.hw.TestApplicationRunner;
 import ru.otus.hw.service.TestRunnerService;
 import static org.mockito.Mockito.*;
 
@@ -11,6 +12,9 @@ import static org.mockito.Mockito.*;
 public class ApplicationCommandsTest {
     @MockitoBean
     private TestRunnerService testRunnerService;
+
+    @MockitoBean
+    private TestApplicationRunner testApplicationRunner;
 
     @Autowired
     private ApplicationCommands testCommand;
