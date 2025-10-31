@@ -29,7 +29,8 @@ public class JpaBookRepository implements BookRepository {
         return em.createQuery(
                 "SELECT DISTINCT b FROM Book b " +
                         "LEFT JOIN FETCH b.author " +
-                        "LEFT JOIN FETCH b.genre",
+                        "LEFT JOIN FETCH b.genre " +
+                        "LEFT JOIN FETCH b.comments",
                 Book.class
         ).getResultList();
     }
