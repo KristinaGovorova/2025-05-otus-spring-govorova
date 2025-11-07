@@ -21,7 +21,16 @@ public class JpaBookRepository implements BookRepository {
 
     @Override
     public Optional<Book> findById(long id) {
-        return Optional.ofNullable(em.find(Book.class, id));
+        List<Book> books = em.createQuery(
+                        "SELECT DISTINCT b FROM Book b " +
+                                "LEFT JOIN FETCH b.author " +
+                                "LEFT JOIN FETCH b.genre " +
+                                "LEFT JOIN FETCH b.comments " +
+                                "WHERE b.id = :id", Book.class)
+                .setParameter("id", id)
+                .getResultList();
+
+        return books.isEmpty() ? Optional.empty() : Optional.of(books.get(0));
     }
 
     @Override
