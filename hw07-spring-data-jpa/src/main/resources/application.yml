@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb
+  jpa:
+    hibernate:
+      ddl-auto: none
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: always
+      data-locations: data.sql
+      schema-locations: schema.sql
+  logging:
+    level:
+      org.springframework.jdbc.datasource.init: DEBUG
+      org.springframework.boot.autoconfigure.jdbc.DataSourceInitializer: DEBUG
+  shell:
+    interactive:
+      enabled: true
