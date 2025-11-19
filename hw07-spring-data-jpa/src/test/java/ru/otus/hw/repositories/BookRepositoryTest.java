@@ -65,7 +65,7 @@ class BookRepositoryTest {
     @Test
     void shouldReturnCorrectBookByIdWithComments() {
         for (Book expectedBook : dbBooks) {
-            var actualBook = bookRepository.findByIdWithComments(expectedBook.getId());
+            var actualBook = bookRepository.findById(expectedBook.getId());
             assertThat(actualBook).isPresent()
                     .get()
                     .extracting(Book::getId, Book::getTitle)
@@ -81,7 +81,7 @@ class BookRepositoryTest {
     @DisplayName("должен загружать список всех книг с комментариями")
     @Test
     void shouldReturnCorrectBooksListWithComments() {
-        var actualBooks = bookRepository.findAllWithComments();
+        var actualBooks = bookRepository.findAll();
         assertThat(actualBooks).hasSize(3);
 
         assertThat(actualBooks)
@@ -157,7 +157,7 @@ class BookRepositoryTest {
     @Test
     @DisplayName("должен возвращать Optional.empty при поиске с комментариями по несуществующему id")
     void findByIdWithComments_shouldReturnEmptyWhenBookNotFound() {
-        assertThat(bookRepository.findByIdWithComments(999L)).isEmpty();
+        assertThat(bookRepository.findById(999L)).isEmpty();
     }
 
     @Test
