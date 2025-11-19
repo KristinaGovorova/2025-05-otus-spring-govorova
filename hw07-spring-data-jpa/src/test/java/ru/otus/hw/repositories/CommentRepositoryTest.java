@@ -92,19 +92,19 @@ class CommentRepositoryTest {
     @DisplayName("должен загружать список всех комментариев по bookId")
     @Test
     void shouldReturnCorrectCommentsListByBookId() {
-        var book1Comments = commentRepository.findByBookId(dbBooks.get(0).getId());
+        var book1Comments = commentRepository.findAllByBookId(dbBooks.get(0).getId());
         assertThat(book1Comments).hasSize(2);
         assertThat(book1Comments)
                 .extracting(Comment::getText)
                 .containsExactly("Comment_1_for_Book_1", "Comment_2_for_Book_1");
 
-        var book2Comments = commentRepository.findByBookId(dbBooks.get(1).getId());
+        var book2Comments = commentRepository.findAllByBookId(dbBooks.get(1).getId());
         assertThat(book2Comments).hasSize(1);
         assertThat(book2Comments)
                 .extracting(Comment::getText)
                 .containsExactly("Comment_1_for_Book_2");
 
-        var book3Comments = commentRepository.findByBookId(dbBooks.get(2).getId());
+        var book3Comments = commentRepository.findAllByBookId(dbBooks.get(2).getId());
         assertThat(book3Comments).hasSize(1);
         assertThat(book3Comments)
                 .extracting(Comment::getText)
@@ -184,7 +184,7 @@ class CommentRepositoryTest {
     @Test
     @DisplayName("должен возвращать пустой список при поиске комментариев для несуществующей книги")
     void findByBookId_shouldReturnEmptyListWhenBookNotFound() {
-        var comments = commentRepository.findByBookId(999L);
+        var comments = commentRepository.findAllByBookId(999L);
         assertThat(comments).isEmpty();
     }
 
@@ -199,7 +199,7 @@ class CommentRepositoryTest {
         var newBook = new Book("New Book Without Comments", newAuthor, newGenre);
         newBook = bookRepository.save(newBook);
 
-        var comments = commentRepository.findByBookId(newBook.getId());
+        var comments = commentRepository.findAllByBookId(newBook.getId());
         assertThat(comments).isEmpty();
     }
 
