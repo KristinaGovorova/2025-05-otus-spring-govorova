@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{:: .main-content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="main-content">
+    <div class="jumbotron bg-light p-5 rounded">
+        <h1 class="display-4">Добро пожаловать в библиотеку!</h1>
+        <p class="lead">Система управления книгами, авторами и жанрами</p>
+        <div class="mt-4">
+            <a th:href="@{/books}" class="btn btn-primary btn-lg me-2">Управление книгами</a>
+            <a th:href="@{/authors}" class="btn btn-success btn-lg me-2">Управление авторами</a>
+            <a th:href="@{/genres}" class="btn btn-info btn-lg">Управление жанрами</a>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

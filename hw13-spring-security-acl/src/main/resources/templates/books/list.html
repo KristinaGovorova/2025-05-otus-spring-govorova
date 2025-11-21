@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{:: .book-content})}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div class="book-content">
+
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{/books/create}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Добавить книгу
+        </a>
+    </div>
+
+    <div th:if="${books == null or books.size() == 0}" class="alert alert-info">
+        Библиотека пуста. Будьте первым, кто добавит книгу!
+    </div>
+
+    <table th:if="${books != null and books.size() > 0}" class="table table-striped table-hover border">
+        <thead class="table-light">
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Жанр</th>
+            <th>Права ACL (Debug)</th>
+            <th style="width: 200px;">Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="book : ${books}">
+            <td th:text="${book.id}">1</td>
+            <td>
+                <a th:href="@{/books/{id}(id=${book.id})}" th:text="${book.title}" class="text-decoration-none fw-bold">Название</a>
+            </td>
+            <td>
+                <span th:if="${book.author != null}" th:text="${book.author.fullName}">Автор</span>
+                <span th:if="${book.author == null}" class="text-muted small">Не указан</span>
+            </td>
+            <td>
+                <span th:if="${book.genre != null}" th:text="${book.genre.name}">Жанр</span>
+                <span th:if="${book.genre == null}" class="text-muted small">Не указан</span>
+            </td>
+
+            <td style="font-size: 0.85em;">
+                <div sec:authorize="hasPermission(#vars.book.id, 'ru.otus.hw.models.Book', 'WRITE')">
+                    <span class="badge bg-success">✔ Владелец</span>
+                </div>
+                <div sec:authorize="!hasPermission(#vars.book.id, 'ru.otus.hw.models.Book', 'WRITE') and !hasRole('ADMIN')">
+                    <span class="badge bg-secondary">✘ Только чтение</span>
+                </div>
+
+                <div sec:authorize="hasRole('ADMIN')">
+                    <span class="badge bg-primary">★ Админ</span>
+                </div>
+            </td>
+
+            <td>
+                <div class="btn-group" role="group">
+                    <a th:href="@{/books/edit/{id}(id=${book.id})}"
+                       sec:authorize="hasPermission(#vars.book.id, 'ru.otus.hw.models.Book', 'WRITE') or hasRole('ADMIN')"
+                       class="btn btn-sm btn-outline-primary">
+                        Edit
+                    </a>
+
+                    <a th:href="@{/books/delete-confirm/{id}(id=${book.id})}"
+                       sec:authorize="hasPermission(#vars.book.id, 'ru.otus.hw.models.Book', 'ADMINISTRATION') or hasRole('ADMIN')"
+                       class="btn btn-sm btn-outline-danger">
+                        Delete
+                    </a>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

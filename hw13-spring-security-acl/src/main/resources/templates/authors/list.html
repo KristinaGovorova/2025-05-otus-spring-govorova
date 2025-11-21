@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{:: .author-content})}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<body>
+
+<div class="author-content">
+
+    <div class="d-flex justify-content-end mb-3">
+        <a th:href="@{/authors/create}" class="btn btn-success">
+            <i class="bi bi-plus-lg"></i> Добавить автора
+        </a>
+    </div>
+
+    <div th:if="${authors == null or authors.size() == 0}" class="alert alert-info">
+        Авторы не найдены
+    </div>
+
+    <table th:if="${authors != null and authors.size() > 0}" class="table table-striped">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Полное имя</th>
+            <th>Действия</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="author : ${authors}">
+            <td th:text="${author.id}">1</td>
+            <td>
+                <a th:href="@{/authors/{id}(id=${author.id})}" th:text="${author.fullName}">Имя автора</a>
+            </td>
+            <td>
+                <a th:href="@{/authors/edit/{id}(id=${author.id})}" class="btn btn-sm btn-warning">Редактировать</a>
+                <a th:href="@{/authors/delete-confirm/{id}(id=${author.id})}" class="btn btn-sm btn-danger">
+                    Удалить
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</div>
+</body>
+</html>
