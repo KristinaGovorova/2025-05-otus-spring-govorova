@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html th:replace="~{layout :: template(~{:: .view-content})}"
+      xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div class="view-content">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div class="d-flex align-items-center">
+        </div>
+        <div>
+            <a th:href="@{/books/edit/{id}(id=${book.id})}" class="btn btn-warning">Редактировать</a>
+            <a th:href="@{/books}" class="btn btn-outline-secondary">Назад к списку</a>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-light">
+            <h5 class="card-title mb-0" th:text="${book.title}">Название книги</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="mb-3">
+                        <strong class="text-muted">ID:</strong>
+                        <span th:text="${book.id}" class="ms-2">1</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong class="text-muted">Автор:</strong>
+                        <span th:if="${book.author != null}" th:text="${book.author.fullName}" class="ms-2">Автор</span>
+                        <span th:if="${book.author == null}" class="text-muted ms-2">Не указан</span>
+                    </div>
+                    <div class="mb-3">
+                        <strong class="text-muted">Жанр:</strong>
+                        <span th:if="${book.genre != null}" th:text="${book.genre.name}" class="ms-2">Жанр</span>
+                        <span th:if="${book.genre == null}" class="text-muted ms-2">Не указан</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-header bg-light">
+            <h5 class="card-title mb-0">Комментарии</h5>
+        </div>
+        <div class="card-body">
+            <div th:if="${book.comments == null or book.comments.size() == 0}" class="text-muted text-center py-4">
+                <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" class="bi bi-chat-left" viewBox="0 0 16 16">
+                    <path d="M14 1a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H4.414A2 2 0 0 0 3 11.586l-2 2V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12.793a.5.5 0 0 0 .854.353l2.853-2.853A1 1 0 0 1 4.414 12H14a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+                </svg>
+                <p class="mt-2 mb-0">Комментарии отсутствуют</p>
+            </div>
+            <div th:if="${book.comments != null and book.comments.size() > 0}">
+                <div th:each="comment : ${book.comments}" class="mb-3 p-3 border rounded">
+                    <p class="mb-2" th:text="${comment.text}">Текст комментария</p>
+                    <small class="text-muted">ID: <span th:text="${comment.id}"></span></small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
