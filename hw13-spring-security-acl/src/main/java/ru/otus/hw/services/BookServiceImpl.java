@@ -1,6 +1,7 @@
 package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.acls.domain.BasePermission;
 import org.springframework.security.acls.domain.ObjectIdentityImpl;
 import org.springframework.security.acls.domain.PrincipalSid;
@@ -33,6 +34,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional(readOnly = true)
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'READ') or hasRole('ADMIN')")
     public Optional<Book> findById(long id) {
         return bookRepository.findById(id);
     }
@@ -85,6 +87,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'WRITE') or hasRole('ADMIN')")
     public Book update(long id, String title, long authorId, long genreId) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book with id %d not found".formatted(id)));
@@ -112,6 +115,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     @Transactional
+    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'ADMINISTRATION') or hasRole('ADMIN')")
     public void deleteById(long id) {
         if (!bookRepository.existsById(id)) {
             throw new EntityNotFoundException("Book with id %d not found".formatted(id));

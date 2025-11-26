@@ -1,7 +1,6 @@
 package ru.otus.hw.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -61,7 +60,6 @@ public class BookController {
     }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'WRITE') or hasRole('ADMIN')")
     public String editBookForm(@PathVariable long id, Model model) {
         var book = bookService.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Book not found with id: " + id));
@@ -73,7 +71,6 @@ public class BookController {
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'WRITE') or hasRole('ADMIN')")
     public String editBook(@PathVariable long id,
                            @RequestParam String title,
                            @RequestParam long authorId,
@@ -100,7 +97,6 @@ public class BookController {
     }
 
     @PostMapping("/delete/{id}")
-    @PreAuthorize("hasPermission(#id, 'ru.otus.hw.models.Book', 'ADMINISTRATION') or hasRole('ADMIN')")
     public String deleteBook(@PathVariable long id) {
         try {
             bookService.deleteById(id);
