@@ -1,0 +1,127 @@
+## Переменные
+@host = http://localhost:8080
+@user1 = user1
+@user2 = user2
+@bookId = 1
+
+
+
+## 1. BOOK SERVICE
+
+### Получить список всех книг
+GET {{host}}/api/books
+
+### Создать книгу (Всего 1 копия!)
+POST {{host}}/api/books
+Content-Type: application/json
+
+{
+  "title": "Harry Potter and the Deploy of Production",
+  "author": { "id": 1 },
+  "genre": { "id": 1 },
+  "totalCopies": 1,
+  "availableCopies": 1
+}
+
+### Проверить конкретную книгу (узнать сколько копий)
+GET {{host}}/api/books/{{bookId}}
+
+
+
+## 2. LOANS
+
+### User1
+POST {{host}}/api/loans?userId={{user1}}&bookId={{bookId}}
+
+### Попытка User2 взять ту же книгу (ошибка 409 Conflict, т.к. копий нет)
+POST {{host}}/api/loans?userId={{user2}}&bookId={{bookId}}
+
+### Посмотреть займы User1
+GET {{host}}/api/loans?userId={{user1}}
+
+
+
+## 3. WAITLIST
+
+### User2 встает в очередь (копий нет)
+POST {{host}}/api/waitlist?userId={{user2}}&bookId={{bookId}}
+
+
+
+## 4. ВОЗВРАТ + УВЕДОМЛЕНИЕ
+
+### User1 возвращает книгу
+POST {{host}}/api/loans/1/return
+
+
+
+## 5. REVIEWS
+
+### User1 оставляет отзыв (он брал книгу - 200 OK)
+POST {{host}}/api/reviews?userId={{user1}}&bookId={{bookId}}&rating=5&text=Great book!
+
+### User3 (не брал) пытается оставить отзыв (403 Forbidden)
+POST {{host}}/api/reviews?userId=user3&bookId={{bookId}}&rating=1&text=Bad book!
+
+### Читать отзывы к книге
+GET {{host}}/api/reviews?bookId={{bookId}}
+
+
+
+## 6. АВТОРЫ И ЖАНРЫ
+
+### Список авторов
+GET {{host}}/api/authors
+
+### Добавить автора
+POST {{host}}/api/authors
+Content-Type: application/json
+
+{
+  "fullName": "Stephen King"
+}
+
+### Список жанров
+GET {{host}}/api/genres
+
+### Добавить жанр
+POST {{host}}/api/genres
+Content-Type: application/json
+
+{
+  "name": "Horror"
+}
+
+### Создать книгу с новым автором
+POST {{host}}/api/books
+Content-Type: application/json
+
+{
+  "title": "It",
+  "author": { "id": 4 },
+  "genre": { "id": 4 },
+  "totalCopies": 3,
+  "availableCopies": 3
+}
+
+
+
+
+
+### Регистрация
+POST http://localhost:8080/auth/register
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}
+
+### Логин (Получение токена)
+POST http://localhost:8080/auth/token
+Content-Type: application/json
+
+{
+  "username": "superadmin",
+  "password": "password"
+}

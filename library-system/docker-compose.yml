@@ -1,0 +1,184 @@
+version: '3.8'
+
+# mvn clean package -DskipTests -Dcheckstyle.skip
+# docker-compose up -d --build service-name
+
+services:
+  # Service Discovery
+  discovery-service:
+    build: ./discovery-service
+    container_name: library-discovery
+    ports:
+      - "8761:8761"
+    environment:
+      - EUREKA_CLIENT_REGISTER_WITH_EUREKA=false
+      - EUREKA_CLIENT_FETCH_REGISTRY=false
+    networks:
+      - library-network
+
+  # API Gateway
+  api-gateway:
+    build: ./api-gateway
+    container_name: library-gateway
+    ports:
+      - "8080:8080" # Внешний порт 8080
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - SPRING_CLOUD_GATEWAY_DISCOVERY_LOCATOR_ENABLED=false
+      - EUREKA_INSTANCE_HOSTNAME=api-gateway
+      - EUREKA_PREFER_IP=false
+    depends_on:
+      - discovery-service
+    networks:
+      - library-network
+
+
+
+  #Databases
+  postgres-book:
+    image: postgres:15
+    container_name: db-book
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB=books_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata-book:/var/library/postgresql/data
+    networks:
+      - library-network
+
+  postgres-library:
+    image: postgres:15
+    container_name: db-library
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_DB=library_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata-library:/var/lib/postgresql/data
+    networks:
+      - library-network
+
+  postgres-auth:
+    image: postgres:15
+    container_name: db-auth
+    ports:
+      - "5434:5432"
+    environment:
+      - POSTGRES_DB=auth_db
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    volumes:
+      - pgdata-auth:/var/library/postgresql/data
+    networks:
+      - library-network
+
+
+
+  # Микросервисы
+  book-service:
+    build: ./book-service
+    container_name: library-book-service
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-book:5432/books_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - EUREKA_PREFER_IP=false
+      - EUREKA_INSTANCE_HOSTNAME=book-service
+    depends_on:
+      - postgres-book
+      - discovery-service
+    networks:
+      - library-network
+
+  user-library-service:
+    build: ./user-library-service
+    container_name: library-user-service
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-library:5432/library_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - EUREKA_PREFER_IP=false
+      - EUREKA_INSTANCE_HOSTNAME=user-library-service
+    depends_on:
+      - postgres-library
+      - discovery-service
+      - book-service
+    networks:
+      - library-network
+
+  auth-service:
+    build: ./auth-service
+    container_name: library-auth
+    ports:
+      - "8085:8085"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres-auth:5432/auth_db
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://discovery-service:8761/eureka/
+      - EUREKA_PREFER_IP=false
+      - EUREKA_INSTANCE_HOSTNAME=auth-service
+    depends_on:
+      - postgres-auth
+      - discovery-service
+    networks:
+      - library-network
+
+  load-generator:
+    build: ./load-generator
+    container_name: library-load-generator
+    environment:
+      - LOAD_TARGET_URL=http://api-gateway:8080
+    depends_on:
+      - api-gateway
+      - auth-service
+    networks:
+      - library-network
+
+
+
+  #Мониторинг
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: library-prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - library-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: library-grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+    networks:
+      - library-network
+
+volumes:
+  pgdata-book:
+  pgdata-library:
+  pgdata-auth:
+
+networks:
+  library-network:
+    driver: bridge
