@@ -1,0 +1,54 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: false
+              lower-case-service-id: true
+          routes:
+            - id: book-service
+              uri: lb://BOOK-SERVICE
+              predicates:
+                - Path=/api/books/**, /api/authors/**, /api/genres/**
+
+            - id: user-library-service
+              uri: lb://USER-LIBRARY-SERVICE
+              predicates:
+                - Path=/api/loans/**, /api/waitlist/**, /api/reviews/**
+
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth/*
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+  instance:
+    prefer-ip-address: ${EUREKA_PREFER_IP:true}
+
+    hostname: ${EUREKA_HOSTNAME:localhost}
+
+    ip-address: ${EUREKA_IP:127.0.0.1}
+
+    non-secure-port: 8080
+    instance-id: ${spring.application.name}:${random.value}
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 10
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,prometheus,metrics
+  endpoint:
+    health:
+      show-details: always
