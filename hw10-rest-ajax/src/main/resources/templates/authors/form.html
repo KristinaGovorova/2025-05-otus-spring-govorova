@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${author.id != null} ? 'Редактирование автора' : 'Добавление автора'">Форма автора</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/}">Библиотека</a>
+        <div class="navbar-nav">
+            <a class="nav-link" th:href="@{/books}">Книги</a>
+            <a class="nav-link" th:href="@{/authors}">Авторы</a>
+            <a class="nav-link" th:href="@{/genres}">Жанры</a>
+        </div>
+    </div>
+</nav>
+
+<div class="container mt-4">
+    <h1 th:text="${author.id != null} ? 'Редактирование автора' : 'Добавление автора'">Форма автора</h1>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+        Произошла ошибка при сохранении
+    </div>
+
+    <form th:with="path=${author.id != null ? '/authors/edit/' + author.id : '/authors/create'}"
+          th:action="@{${path}}"
+          method="post"
+          class="mt-4">
+
+        <div class="mb-3">
+            <label for="fullName" class="form-label">Полное имя *</label>
+            <input type="text" class="form-control" id="fullName" name="fullName"
+                   th:value="${author.fullName}" required minlength="1" maxlength="255">
+        </div>
+
+        <div class="mb-3">
+            <button type="submit" class="btn btn-success">
+                <span th:text="${author.id != null} ? 'Обновить' : 'Создать'"></span>
+            </button>
+            <a th:href="@{/authors}" class="btn btn-secondary">Отмена</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

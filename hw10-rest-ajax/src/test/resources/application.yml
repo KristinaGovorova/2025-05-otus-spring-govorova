@@ -1,0 +1,16 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  sql:
+    init:
+      mode: never
+  shell:
+    interactive:
+      enabled: false
+
+logging:
+  level:
+    ru.otus.hw: DEBUG
