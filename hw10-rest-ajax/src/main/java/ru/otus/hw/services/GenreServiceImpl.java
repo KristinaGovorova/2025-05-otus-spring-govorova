@@ -1,38 +1,67 @@
 package ru.otus.hw.services;
 
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import ru.otus.hw.converters.GenreConverter;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.models.dto.GenreDto;
 import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class GenreServiceImpl implements GenreService {
+
     private final GenreRepository genreRepository;
+    private final GenreConverter genreConverter;
 
     @Override
-    public List<Genre> findAll() {
-        return genreRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<GenreDto> findAll() {
+        return genreRepository.findAll()
+                .stream()
+                .map(genreConverter::toDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public Optional<Genre> findById(long id) {
-        return genreRepository.findById(id);
+    @Transactional(readOnly = true)
+    public GenreDto findById(long id) {
+        Genre genre = genreRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(id)));
+        return genreConverter.toDto(genre);
     }
 
+    @Override
     @Transactional
-    @Override
-    public Genre save(Genre genre) {
-        return genreRepository.save(genre);
+    public GenreDto insert(GenreDto genreDto) {
+        Genre genre = new Genre();
+        genre.setName(genreDto.getName());
+        Genre savedGenre = genreRepository.save(genre);
+        return genreConverter.toDto(savedGenre);
     }
 
-    @Transactional
     @Override
+    @Transactional
+    public GenreDto update(GenreDto genreDto) {
+        Genre genre = genreRepository.findById(genreDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Genre with id %d not found".formatted(genreDto.getId())));
+
+        genre.setName(genreDto.getName());
+        Genre updatedGenre = genreRepository.save(genre);
+        return genreConverter.toDto(updatedGenre);
+    }
+
+    @Override
+    @Transactional
     public void deleteById(long id) {
+        if (!genreRepository.existsById(id)) {
+            throw new EntityNotFoundException("Genre with id %d not found".formatted(id));
+        }
         genreRepository.deleteById(id);
     }
 }

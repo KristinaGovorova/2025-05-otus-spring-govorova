@@ -1,19 +1,17 @@
 package ru.otus.hw.services;
 
-import jakarta.transaction.Transactional;
-import ru.otus.hw.models.Author;
+import ru.otus.hw.models.dto.AuthorDto;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AuthorService {
-    List<Author> findAll();
+    List<AuthorDto> findAll();
 
-    Optional<Author> findById(long id);
+    AuthorDto findById(long id);
 
-    @Transactional
-    Author save(Author author);
+    AuthorDto insert(AuthorDto authorDto);
 
-    @Transactional
+    AuthorDto update(AuthorDto authorDto);
+
     void deleteById(long id);
 }
