@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.dto.AuthorDto;
+import ru.otus.hw.models.dto.BookDto;
 import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.services.BookService;
 
 import java.util.List;
 
@@ -20,6 +22,7 @@ import java.util.List;
 public class AuthorRestController {
 
     private final AuthorService authorService;
+    private final BookService bookService;
 
     @GetMapping
     public List<AuthorDto> getAllAuthors() {
@@ -36,8 +39,8 @@ public class AuthorRestController {
     }
 
     @GetMapping("/{id}/books")
-    public List<AuthorDto> getAuthorWithBooks(@PathVariable long id) {
-        return authorService.findAll(); // Здесь можно вернуть автора с книгами, если нужно
+    public List<BookDto> getAuthorWithBooks(@PathVariable long id) {
+        return bookService.findByAuthorId(id);
     }
 
     @PostMapping

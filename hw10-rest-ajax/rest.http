@@ -1,0 +1,5 @@
+###
+GET localhost:8080/api/genres/1/books
+
+###
+GET localhost:8080/api/authors/1/books

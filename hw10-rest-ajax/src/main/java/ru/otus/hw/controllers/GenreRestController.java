@@ -8,7 +8,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.otus.hw.exceptions.EntityNotFoundException;
+import ru.otus.hw.models.dto.BookDto;
 import ru.otus.hw.models.dto.GenreDto;
+import ru.otus.hw.services.BookService;
 import ru.otus.hw.services.GenreService;
 
 import java.util.List;
@@ -20,6 +22,7 @@ import java.util.List;
 public class GenreRestController {
 
     private final GenreService genreService;
+    private final BookService bookService;
 
     @GetMapping
     public List<GenreDto> getAllGenres() {
@@ -36,8 +39,8 @@ public class GenreRestController {
     }
 
     @GetMapping("/{id}/books")
-    public List<GenreDto> getGenreWithBooks(@PathVariable long id) {
-        return genreService.findAll(); // Здесь можно вернуть жанр с книгами, если нужно
+    public List<BookDto> getGenreWithBooks(@PathVariable long id) {
+        return bookService.findByGenreId(id);
     }
 
     @PostMapping

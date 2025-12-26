@@ -35,12 +35,12 @@ public class BookRestController {
         }
     }
 
-    @GetMapping("/author/{authorId}")
+    @GetMapping("/authors/{authorId}")
     public List<BookDto> getBooksByAuthor(@PathVariable long authorId) {
         return bookService.findByAuthorId(authorId);
     }
 
-    @GetMapping("/genre/{genreId}")
+    @GetMapping("/genres/{genreId}")
     public List<BookDto> getBooksByGenre(@PathVariable long genreId) {
         return bookService.findByGenreId(genreId);
     }
