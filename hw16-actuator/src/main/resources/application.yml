@@ -1,0 +1,51 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:maindb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:data.sql
+
+  thymeleaf:
+    cache: false
+    jackson:
+      default-property-inclusion: non_null
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "health,logfile,metrics,prometheus"
+  endpoint:
+    health:
+      show-details: always
+
+logging:
+  level:
+    org.hibernate.SQL: DEBUG
+  file:
+    name: logs/application.log
