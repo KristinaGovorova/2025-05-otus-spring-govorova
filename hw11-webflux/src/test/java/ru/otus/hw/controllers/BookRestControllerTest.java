@@ -10,6 +10,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.dto.BookDto;
 import ru.otus.hw.services.BookService;
 
@@ -180,5 +181,39 @@ class BookRestControllerTest {
         dto.setGenreId(genreId);
         dto.setGenreName(genreName);
         return dto;
+    }
+
+    @Test
+    @DisplayName("Должен возвращать 404 при попытке обновить несуществующую книгу")
+    void shouldReturnNotFoundWhenUpdatingNonExistentBook() {
+        // Given
+        String nonExistentId = "999";
+        BookDto requestDto = new BookDto();
+        requestDto.setTitle("Updated Book");
+        requestDto.setAuthorId("1");
+        requestDto.setGenreId("1");
+
+        when(bookService.update(eq(nonExistentId), any(BookDto.class)))
+                .thenReturn(Mono.error(new EntityNotFoundException("Book not found")));
+
+        // When & Then
+        webTestClient.put()
+                .uri("/api/books/" + nonExistentId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(requestDto)
+                .exchange()
+                .expectStatus().isNotFound();
+    }
+
+    @Test
+    @DisplayName("Должен возвращать 404 при запросе несуществующей книги")
+    void shouldReturnNotFoundWhenGettingNonExistentBook() {
+        when(bookService.findById("999"))
+                .thenReturn(Mono.error(new EntityNotFoundException("Book not found")));
+
+        webTestClient.get()
+                .uri("/api/books/999")
+                .exchange()
+                .expectStatus().isNotFound();
     }
 }

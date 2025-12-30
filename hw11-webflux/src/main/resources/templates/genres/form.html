@@ -39,7 +39,7 @@
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const path = window.location.pathname;
-        const match = path.match(/\/genres\/edit\/(\d+)/);
+        const match = path.match(/\/genres\/edit\/([a-zA-Z0-9-]+)/);
         const genreId = match ? match[1] : null;
 
         if (genreId) {
@@ -77,13 +77,13 @@
         };
 
         const path = window.location.pathname;
-        const match = path.match(/\/genres\/edit\/(\d+)/);
+        const match = path.match(/\/genres\/edit\/([a-zA-Z0-9-]+)/);
         const genreId = match ? match[1] : null;
 
         try {
             let response;
             if (genreId) {
-                genreData.id = parseInt(genreId);
+                genreData.id = genreId;
                 response = await fetch(`/api/genres/${genreId}`, {
                     method: 'PUT',
                     headers: {

@@ -126,7 +126,7 @@
                 <td class="genre-actions">
                     <button onclick="location.href='/genres/edit/${genre.id}'"
                             class="btn btn-sm btn-warning me-1">Редактировать</button>
-                    <button onclick="showDeleteModal(${genre.id})"
+                    <button onclick="showDeleteModal('${genre.id}')"
                             class="btn btn-sm btn-danger">Удалить</button>
                 </td>
             `;
@@ -135,7 +135,7 @@
     }
 
     function showDeleteModal(genreId) {
-        const genre = allGenres.find(g => g.id == genreId);
+        const genre = allGenres.find(g => g.id === String(genreId));
         if (!genre) {
             showMessage('Жанр не найден', 'danger');
             return;

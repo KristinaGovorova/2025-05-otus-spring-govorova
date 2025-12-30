@@ -20,12 +20,12 @@ public class AuthorPageController {
     }
 
     @GetMapping("/{id}")
-    public String viewPage(@PathVariable Long id) {
+    public String viewPage(@PathVariable String id) {
         return "authors/view";
     }
 
     @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable Long id) {
+    public String editPage(@PathVariable String id) {
         return "authors/form";
     }
 }

@@ -86,7 +86,7 @@
         deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 
         const path = window.location.pathname;
-        const match = path.match(/\/genres\/(\d+)/);
+        const match = path.match(/\/genres\/([a-zA-Z0-9-]+)/);
         const genreId = match ? match[1] : null;
 
         if (genreId) {

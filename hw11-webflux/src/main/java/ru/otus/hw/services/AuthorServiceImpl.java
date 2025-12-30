@@ -9,6 +9,7 @@ import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.dto.AuthorDto;
 import ru.otus.hw.repositories.AuthorRepository;
+import ru.otus.hw.repositories.BookRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -16,6 +17,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorConverter authorConverter;
+    private final BookRepository bookRepository;
 
     @Override
     public Flux<AuthorDto> findAll() {
@@ -54,7 +56,10 @@ public class AuthorServiceImpl implements AuthorService {
     public Mono<Void> deleteById(String id) {
         return authorRepository.findById(id)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("Author", id)))
-                .flatMap(author -> authorRepository.deleteById(id));
+                .flatMap(author ->
+                        bookRepository.deleteByAuthorId(id)
+                                .then(authorRepository.deleteById(id))
+                );
     }
 
     @Override

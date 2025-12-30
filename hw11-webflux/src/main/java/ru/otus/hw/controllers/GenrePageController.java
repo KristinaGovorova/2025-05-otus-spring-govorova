@@ -20,12 +20,12 @@ public class GenrePageController {
     }
 
     @GetMapping("/{id}")
-    public String viewPage(@PathVariable Long id) {
+    public String viewPage(@PathVariable String id) {
         return "genres/view";
     }
 
     @GetMapping("/edit/{id}")
-    public String editPage(@PathVariable Long id) {
+    public String editPage(@PathVariable String id) {
         return "genres/form";
     }
 }

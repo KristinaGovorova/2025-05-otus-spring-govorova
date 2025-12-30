@@ -86,7 +86,7 @@
         deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 
         const path = window.location.pathname;
-        const match = path.match(/\/authors\/(\d+)/);
+        const match = path.match(/\/authors\/([a-zA-Z0-9-]+)/);
         const authorId = match ? match[1] : null;
 
         if (authorId) {

@@ -96,7 +96,7 @@
         deleteModal = new bootstrap.Modal(document.getElementById('deleteModal'));
 
         const path = window.location.pathname;
-        const match = path.match(/\/books\/(\d+)/);
+        const match = path.match(/\/books\/([a-zA-Z0-9-]+)/);
         const bookId = match ? match[1] : null;
 
         if (bookId) {

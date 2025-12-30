@@ -126,7 +126,7 @@
                 <td class="author-actions">
                     <button onclick="location.href='/authors/edit/${author.id}'"
                             class="btn btn-sm btn-warning me-1">Редактировать</button>
-                    <button onclick="showDeleteModal(${author.id})"
+                    <button onclick="showDeleteModal('${author.id}')"
                             class="btn btn-sm btn-danger">Удалить</button>
                 </td>
             `;
@@ -135,7 +135,7 @@
     }
 
     function showDeleteModal(authorId) {
-        const author = allAuthors.find(a => a.id == authorId);
+        const author = allAuthors.find(a => a.id === String(authorId));
         if (!author) {
             showMessage('Автор не найден', 'danger');
             return;

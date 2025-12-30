@@ -25,17 +25,16 @@ public class DataInitializer implements CommandLineRunner {
     private final BookRepository bookRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         log.info("Starting data initialization...");
 
         clearCollections()
                 .then(createAuthors())
                 .then(createGenres())
                 .then(createBooks())
-                .subscribe(
-                        result -> log.info("Data initialization completed successfully"),
-                        error -> log.error("Error during data initialization", error)
-                );
+                .doOnSuccess(v -> log.info("Data initialization completed successfully"))
+                .doOnError(e -> log.error("Error during data initialization", e))
+                .block();
     }
 
     private Mono<Void> clearCollections() {
@@ -48,34 +47,28 @@ public class DataInitializer implements CommandLineRunner {
 
     private Mono<Void> createAuthors() {
         List<Author> authors = Arrays.asList(
-                new Author("Лев Толстой"),
-                new Author("Фёдор Достоевский"),
-                new Author("Александр Пушкин"),
-                new Author("Михаил Булгаков"),
-                new Author("Антон Чехов")
+                new Author(null, "Лев Толстой"),
+                new Author(null, "Фёдор Достоевский"),
+                new Author(null, "Александр Пушкин"),
+                new Author(null, "Михаил Булгаков"),
+                new Author(null, "Антон Чехов")
         );
-
         return authorRepository.saveAll(authors)
-                .collectList()
-                .doOnNext(savedAuthors ->
-                        log.info("Created {} authors", savedAuthors.size()))
+                .doOnNext(a -> log.info("Author created: {}", a.getFullName()))
                 .then();
     }
 
     private Mono<Void> createGenres() {
         List<Genre> genres = Arrays.asList(
-                new Genre("Роман"),
-                new Genre("Повесть"),
-                new Genre("Рассказ"),
-                new Genre("Драма"),
-                new Genre("Поэзия"),
-                new Genre("Фантастика")
+                new Genre(null, "Роман"),
+                new Genre(null, "Повесть"),
+                new Genre(null, "Рассказ"),
+                new Genre(null, "Драма"),
+                new Genre(null, "Поэзия"),
+                new Genre(null, "Фантастика")
         );
-
         return genreRepository.saveAll(genres)
-                .collectList()
-                .doOnNext(savedGenres ->
-                        log.info("Created {} genres", savedGenres.size()))
+                .doOnNext(g -> log.info("Genre created: {}", g.getName()))
                 .then();
     }
 
@@ -87,29 +80,44 @@ public class DataInitializer implements CommandLineRunner {
             List<Author> authors = tuple.getT1();
             List<Genre> genres = tuple.getT2();
 
+            if (authors.isEmpty() || genres.isEmpty()) {
+                return Mono.empty();
+            }
+
+            Author tolstoy = findAuthor(authors, "Толстой");
+            Author dostoevsky = findAuthor(authors, "Достоевский");
+            Author pushkin = findAuthor(authors, "Пушкин");
+            Author bulgakov = findAuthor(authors, "Булгаков");
+            Author chekhov = findAuthor(authors, "Чехов");
+
+            Genre novel = findGenre(genres, "Роман");
+            Genre drama = findGenre(genres, "Драма");
+
             List<Book> books = Arrays.asList(
-                    new Book("Война и мир",
-                            authors.stream().filter(a -> a.getFullName().equals("Лев Толстой")).findFirst().orElse(null),
-                            genres.stream().filter(g -> g.getName().equals("Роман")).findFirst().orElse(null)),
-                    new Book("Преступление и наказание",
-                            authors.stream().filter(a -> a.getFullName().equals("Фёдор Достоевский")).findFirst().orElse(null),
-                            genres.stream().filter(g -> g.getName().equals("Роман")).findFirst().orElse(null)),
-                    new Book("Евгений Онегин",
-                            authors.stream().filter(a -> a.getFullName().equals("Александр Пушкин")).findFirst().orElse(null),
-                            genres.stream().filter(g -> g.getName().equals("Роман")).findFirst().orElse(null)),
-                    new Book("Мастер и Маргарита",
-                            authors.stream().filter(a -> a.getFullName().equals("Михаил Булгаков")).findFirst().orElse(null),
-                            genres.stream().filter(g -> g.getName().equals("Роман")).findFirst().orElse(null)),
-                    new Book("Вишнёвый сад",
-                            authors.stream().filter(a -> a.getFullName().equals("Антон Чехов")).findFirst().orElse(null),
-                            genres.stream().filter(g -> g.getName().equals("Драма")).findFirst().orElse(null))
+                    new Book(null, "Война и мир", tolstoy.getId(), novel.getId()),
+                    new Book(null, "Преступление и наказание", dostoevsky.getId(), novel.getId()),
+                    new Book(null, "Евгений Онегин", pushkin.getId(), novel.getId()),
+                    new Book(null, "Мастер и Маргарита", bulgakov.getId(), novel.getId()),
+                    new Book(null, "Вишнёвый сад", chekhov.getId(), drama.getId())
             );
 
             return bookRepository.saveAll(books)
-                    .collectList()
-                    .doOnNext(savedBooks ->
-                            log.info("Created {} books", savedBooks.size()))
+                    .doOnNext(b -> log.info("Book created: {}", b.getTitle()))
                     .then();
         });
+    }
+
+    private Author findAuthor(List<Author> authors, String namePart) {
+        return authors.stream()
+                .filter(a -> a.getFullName().contains(namePart))
+                .findFirst()
+                .orElse(authors.get(0));
+    }
+
+    private Genre findGenre(List<Genre> genres, String name) {
+        return genres.stream()
+                .filter(g -> g.getName().equals(name))
+                .findFirst()
+                .orElse(genres.get(0));
     }
 }

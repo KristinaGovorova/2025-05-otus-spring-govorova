@@ -19,6 +19,4 @@ public interface BookService {
     Mono<BookDto> update(String id, BookDto bookDto);
 
     Mono<Void> deleteById(String id);
-
-    Mono<Boolean> existsById(String id);
 }

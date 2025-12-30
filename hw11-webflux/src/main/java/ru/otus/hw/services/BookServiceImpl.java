@@ -2,7 +2,6 @@ package ru.otus.hw.services;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.converters.BookConverter;
@@ -27,102 +26,81 @@ public class BookServiceImpl implements BookService {
     @Override
     public Flux<BookDto> findAll() {
         return bookRepository.findAll()
-                .flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+                .flatMap(this::toDtoWithRelations);
     }
 
     @Override
     public Mono<BookDto> findById(String id) {
         return bookRepository.findById(id)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("Book", id)))
-                .flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+                .flatMap(this::toDtoWithRelations);
     }
 
     @Override
     public Flux<BookDto> findByAuthorId(String authorId) {
         return bookRepository.findByAuthorId(authorId)
-                .flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+                .flatMap(this::toDtoWithRelations);
     }
 
     @Override
     public Flux<BookDto> findByGenreId(String genreId) {
         return bookRepository.findByGenreId(genreId)
-                .flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+                .flatMap(this::toDtoWithRelations);
     }
 
     @Override
-    @Transactional
     public Mono<BookDto> create(BookDto bookDto) {
         return Mono.zip(
-                        authorRepository.findById(bookDto.getAuthorId())
-                                .switchIfEmpty(Mono.error(new EntityNotFoundException("Author", bookDto.getAuthorId()))),
-                        genreRepository.findById(bookDto.getGenreId())
-                                .switchIfEmpty(Mono.error(new EntityNotFoundException("Genre", bookDto.getGenreId())))
-                ).flatMap(tuple -> {
-                    Author author = tuple.getT1();
-                    Genre genre = tuple.getT2();
+                authorRepository.findById(bookDto.getAuthorId())
+                        .switchIfEmpty(Mono.error(new EntityNotFoundException("Author", bookDto.getAuthorId()))),
+                genreRepository.findById(bookDto.getGenreId())
+                        .switchIfEmpty(Mono.error(new EntityNotFoundException("Genre", bookDto.getGenreId())))
+        ).flatMap(tuple -> {
+            Author author = tuple.getT1();
+            Genre genre = tuple.getT2();
 
-                    Book book = new Book();
-                    book.setTitle(bookDto.getTitle());
-                    book.setAuthor(author);
-                    book.setGenre(genre);
+            Book book = new Book(null, bookDto.getTitle(), author.getId(), genre.getId());
 
-                    return bookRepository.save(book);
-                }).flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+            return bookRepository.save(book)
+                    .map(savedBook -> bookConverter.toDto(savedBook, author, genre));
+        });
     }
 
     @Override
-    @Transactional
     public Mono<BookDto> update(String id, BookDto bookDto) {
-        return Mono.zip(
-                        bookRepository.findById(id)
-                                .switchIfEmpty(Mono.error(new EntityNotFoundException("Book", id))),
-                        authorRepository.findById(bookDto.getAuthorId())
-                                .switchIfEmpty(Mono.error(new EntityNotFoundException("Author", bookDto.getAuthorId()))),
-                        genreRepository.findById(bookDto.getGenreId())
-                                .switchIfEmpty(Mono.error(new EntityNotFoundException("Genre", bookDto.getGenreId())))
-                ).flatMap(tuple -> {
-                    Book book = tuple.getT1();
-                    Author author = tuple.getT2();
-                    Genre genre = tuple.getT3();
+        return bookRepository.findById(id)
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Book", id)))
+                .flatMap(book ->
+                        Mono.zip(
+                                authorRepository.findById(bookDto.getAuthorId())
+                                        .switchIfEmpty(Mono.error(new EntityNotFoundException("Author", bookDto.getAuthorId()))),
+                                genreRepository.findById(bookDto.getGenreId())
+                                        .switchIfEmpty(Mono.error(new EntityNotFoundException("Genre", bookDto.getGenreId())))
+                        ).flatMap(tuple -> {
+                            Author author = tuple.getT1();
+                            Genre genre = tuple.getT2();
 
-                    book.setTitle(bookDto.getTitle());
-                    book.setAuthor(author);
-                    book.setGenre(genre);
+                            book.setTitle(bookDto.getTitle());
+                            book.setAuthorId(author.getId());
+                            book.setGenreId(genre.getId());
 
-                    return bookRepository.save(book);
-                }).flatMap(this::enrichBookWithDetails)
-                .flatMap(bookConverter::toDto);
+                            return bookRepository.save(book)
+                                    .map(savedBook -> bookConverter.toDto(savedBook, author, genre));
+                        })
+                );
     }
 
     @Override
     public Mono<Void> deleteById(String id) {
-        return bookRepository.findById(id)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("Book", id)))
-                .flatMap(book -> bookRepository.deleteById(id));
+        return bookRepository.deleteById(id);
     }
 
-    @Override
-    public Mono<Boolean> existsById(String id) {
-        return bookRepository.existsById(id);
-    }
-
-    private Mono<Book> enrichBookWithDetails(Book book) {
-        if (book.getAuthor() != null && book.getGenre() != null) {
-            return Mono.just(book);
-        }
-
+    private Mono<BookDto> toDtoWithRelations(Book book) {
         return Mono.zip(
-                authorRepository.findById(book.getAuthor().getId()),
-                genreRepository.findById(book.getGenre().getId())
-        ).map(tuple -> {
-            book.setAuthor(tuple.getT1());
-            book.setGenre(tuple.getT2());
-            return book;
-        });
+                authorRepository.findById(book.getAuthorId())
+                        .defaultIfEmpty(new Author("Unknown")),
+                genreRepository.findById(book.getGenreId())
+                        .defaultIfEmpty(new Genre("Unknown"))
+        ).map(tuple -> bookConverter.toDto(book, tuple.getT1(), tuple.getT2()));
     }
 }

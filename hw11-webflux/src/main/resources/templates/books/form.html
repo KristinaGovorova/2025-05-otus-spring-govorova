@@ -7,7 +7,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const path = window.location.pathname;
-            const match = path.match(/\/books\/edit\/(\d+)/) || path.match(/\/books\/(\d+)/);
+            const match = path.match(/\/books\/edit\/([a-zA-Z0-9-]+)/) || path.match(/\/books\/([a-zA-Z0-9-]+)/);
             const bookId = match ? match[1] : null;
 
             loadAuthors();
@@ -81,13 +81,13 @@
             };
 
             const path = window.location.pathname;
-            const match = path.match(/\/books\/edit\/(\d+)/);
+            const match = path.match(/\/books\/edit\/([a-zA-Z0-9]+)/);
             const bookId = match ? match[1] : null;
 
             try {
                 let response;
                 if (bookId) {
-                    bookData.id = parseInt(bookId);
+                    bookData.id = bookId;
                     response = await fetch(`/api/books/${bookId}`, {
                         method: 'PUT',
                         headers: {
