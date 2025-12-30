@@ -20,6 +20,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
+                .csrf(csrf -> csrf.disable())
+
+                .headers(headers -> headers.frameOptions(frameOptions -> frameOptions.disable()))
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
@@ -37,26 +41,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.PUT, "/api/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.PATCH, "/api/**").hasRole("ADMIN")
                         .requestMatchers(HttpMethod.DELETE, "/api/**").hasRole("ADMIN")
-
-                        .requestMatchers("/books/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/books/edit/**").hasRole("ADMIN")
-                        .requestMatchers("/books/create").hasRole("ADMIN")
-                        .requestMatchers("/books/delete/**").hasRole("ADMIN")
-
-                        .requestMatchers("/authors/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/authors/edit/**").hasRole("ADMIN")
-                        .requestMatchers("/authors/create").hasRole("ADMIN")
-
-                        .requestMatchers("/genres/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/genres/edit/**").hasRole("ADMIN")
-                        .requestMatchers("/genres/create").hasRole("ADMIN")
-
-                        .requestMatchers("/comments/**").hasAnyRole("USER", "ADMIN")
-                        .requestMatchers("/comments/delete/**").hasRole("ADMIN")
-
                         .anyRequest().authenticated()
                 )
-
                 .formLogin(form -> form
                         .loginPage("/login")
                         .loginProcessingUrl("/login")
@@ -66,7 +52,6 @@ public class SecurityConfig {
                         .passwordParameter("password")
                         .permitAll()
                 )
-
                 .logout(logout -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login?logout=true")
@@ -75,15 +60,7 @@ public class SecurityConfig {
                         .deleteCookies("JSESSIONID")
                         .permitAll()
                 )
-
-                .exceptionHandling(exceptions -> exceptions
-                        .accessDeniedPage("/access-denied")
-                )
-
-                .sessionManagement(session -> session
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
-                );
+        ;
 
         return http.build();
     }
