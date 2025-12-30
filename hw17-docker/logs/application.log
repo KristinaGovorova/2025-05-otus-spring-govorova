@@ -1,0 +1,161 @@
+2025-12-30T18:44:46.549+03:00  INFO 32328 --- [main] ru.otus.hw.Application                   : Starting Application using Java 25 with PID 32328 (D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker\target\classes started by Teningur in D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker)
+2025-12-30T18:44:46.551+03:00  INFO 32328 --- [main] ru.otus.hw.Application                   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T18:44:47.306+03:00  INFO 32328 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T18:44:47.356+03:00  INFO 32328 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 44 ms. Found 4 JPA repository interfaces.
+2025-12-30T18:44:47.991+03:00  INFO 32328 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-30T18:44:48.002+03:00  INFO 32328 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T18:44:48.003+03:00  INFO 32328 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2025-12-30T18:44:48.057+03:00  INFO 32328 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T18:44:48.057+03:00  INFO 32328 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1459 ms
+2025-12-30T18:44:48.196+03:00  WARN 32328 --- [main] ConfigServletWebServerApplicationContext : Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration': Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+2025-12-30T18:44:48.198+03:00  INFO 32328 --- [main] o.apache.catalina.core.StandardService   : Stopping service [Tomcat]
+2025-12-30T18:44:48.215+03:00  INFO 32328 --- [main] .s.b.a.l.ConditionEvaluationReportLogger : 
+
+Error starting ApplicationContext. To display the condition evaluation report re-run your application with 'debug' enabled.
+2025-12-30T18:44:48.229+03:00 ERROR 32328 --- [main] o.s.boot.SpringApplication               : Application run failed
+
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaConfiguration': Unsatisfied dependency expressed through constructor parameter 0: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:795) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.autowireConstructor(ConstructorResolver.java:237) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.autowireConstructor(AbstractAutowireCapableBeanFactory.java:1375) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1212) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:409) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:205) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:954) ~[spring-context-6.1.11.jar:6.1.11]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:625) ~[spring-context-6.1.11.jar:6.1.11]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:146) ~[spring-boot-3.3.2.jar:3.3.2]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:754) ~[spring-boot-3.3.2.jar:3.3.2]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:456) ~[spring-boot-3.3.2.jar:3.3.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:335) ~[spring-boot-3.3.2.jar:3.3.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1363) ~[spring-boot-3.3.2.jar:3.3.2]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1352) ~[spring-boot-3.3.2.jar:3.3.2]
+	at ru.otus.hw.Application.main(Application.java:9) ~[classes/:na]
+Caused by: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:648) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:636) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1355) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1185) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:562) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:522) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:337) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:234) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:335) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:200) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.config.DependencyDescriptor.resolveCandidate(DependencyDescriptor.java:254) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.doResolveDependency(DefaultListableBeanFactory.java:1443) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.resolveDependency(DefaultListableBeanFactory.java:1353) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.resolveAutowiredArgument(ConstructorResolver.java:904) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.createArgumentArray(ConstructorResolver.java:782) ~[spring-beans-6.1.11.jar:6.1.11]
+	... 27 common frames omitted
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception with message: Cannot load driver class: org.h2.Driver
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:178) ~[spring-beans-6.1.11.jar:6.1.11]
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:644) ~[spring-beans-6.1.11.jar:6.1.11]
+	... 41 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: org.h2.Driver
+	at org.springframework.util.Assert.state(Assert.java:97) ~[spring-core-6.1.11.jar:6.1.11]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:175) ~[spring-boot-autoconfigure-3.3.2.jar:3.3.2]
+	at org.springframework.boot.autoconfigure.jdbc.PropertiesJdbcConnectionDetails.getDriverClassName(PropertiesJdbcConnectionDetails.java:49) ~[spring-boot-autoconfigure-3.3.2.jar:3.3.2]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:55) ~[spring-boot-autoconfigure-3.3.2.jar:3.3.2]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:117) ~[spring-boot-autoconfigure-3.3.2.jar:3.3.2]
+	at java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(DirectMethodHandleAccessor.java:104) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565) ~[na:na]
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:146) ~[spring-beans-6.1.11.jar:6.1.11]
+	... 42 common frames omitted
+
+2025-12-30T18:45:04.591+03:00  INFO 21080 --- [main] ru.otus.hw.Application                   : Starting Application using Java 25 with PID 21080 (D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker\target\classes started by Teningur in D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker)
+2025-12-30T18:45:04.592+03:00  INFO 21080 --- [main] ru.otus.hw.Application                   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T18:45:05.233+03:00  INFO 21080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T18:45:05.276+03:00  INFO 21080 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 4 JPA repository interfaces.
+2025-12-30T18:45:05.725+03:00  INFO 21080 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-30T18:45:05.734+03:00  INFO 21080 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T18:45:05.734+03:00  INFO 21080 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2025-12-30T18:45:05.784+03:00  INFO 21080 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T18:45:05.784+03:00  INFO 21080 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1152 ms
+2025-12-30T18:45:05.875+03:00  INFO 21080 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T18:45:06.073+03:00  INFO 21080 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:maindb user=SA
+2025-12-30T18:45:06.074+03:00  INFO 21080 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-30T18:45:06.083+03:00  INFO 21080 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:maindb'
+2025-12-30T18:45:06.205+03:00  INFO 21080 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T18:45:06.261+03:00  INFO 21080 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-12-30T18:45:06.294+03:00  INFO 21080 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T18:45:06.544+03:00  INFO 21080 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T18:45:07.399+03:00  INFO 21080 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T18:45:07.415+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : drop table if exists authors cascade 
+2025-12-30T18:45:07.418+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : drop table if exists books cascade 
+2025-12-30T18:45:07.418+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : drop table if exists comments cascade 
+2025-12-30T18:45:07.419+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : drop table if exists genres cascade 
+2025-12-30T18:45:07.422+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : create table authors (id bigint generated by default as identity, full_name varchar(255) not null unique, primary key (id))
+2025-12-30T18:45:07.429+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : create table books (author_id bigint, genre_id bigint, id bigint generated by default as identity, title varchar(255) not null, primary key (id))
+2025-12-30T18:45:07.431+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : create table comments (book_id bigint, id bigint generated by default as identity, text varchar(1000) not null, primary key (id))
+2025-12-30T18:45:07.431+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : create table genres (id bigint generated by default as identity, name varchar(255) not null unique, primary key (id))
+2025-12-30T18:45:07.440+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : alter table if exists books add constraint FKfjixh2vym2cvfj3ufxj91jem7 foreign key (author_id) references authors
+2025-12-30T18:45:07.450+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : alter table if exists books add constraint FK9hsvoalyniowgt8fbufidqj3x foreign key (genre_id) references genres
+2025-12-30T18:45:07.452+03:00 DEBUG 21080 --- [main] org.hibernate.SQL                        : alter table if exists comments add constraint FK1ey8gegnanvybix5a025vepf4 foreign key (book_id) references books
+2025-12-30T18:45:07.455+03:00  INFO 21080 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T18:45:07.846+03:00  WARN 21080 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-30T18:45:07.875+03:00  INFO 21080 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-12-30T18:45:08.450+03:00  INFO 21080 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-30T18:45:08.517+03:00  INFO 21080 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-30T18:45:08.528+03:00  INFO 21080 --- [main] ru.otus.hw.Application                   : Started Application in 4.292 seconds (process running for 4.743)
+2025-12-30T18:45:09.071+03:00  INFO 21080 --- [RMI TCP Connection(5)-172.16.0.2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-30T18:45:09.071+03:00  INFO 21080 --- [RMI TCP Connection(5)-172.16.0.2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-30T18:45:09.073+03:00  INFO 21080 --- [RMI TCP Connection(5)-172.16.0.2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
+2025-12-30T18:45:09.306+03:00 DEBUG 21080 --- [RMI TCP Connection(2)-172.16.0.2] org.hibernate.SQL                        : select count(*) from books b1_0
+2025-12-30T18:45:15.908+03:00  INFO 21080 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T18:45:15.909+03:00  INFO 21080 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-30T18:45:15.911+03:00  INFO 21080 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+2025-12-30T18:59:27.639+03:00  INFO 15836 --- [main] ru.otus.hw.Application                   : Starting Application using Java 25 with PID 15836 (D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker\target\classes started by Teningur in D:\Idea\IdeaProjects\2025-05-otus-spring-govorova\hw17-docker)
+2025-12-30T18:59:27.641+03:00  INFO 15836 --- [main] ru.otus.hw.Application                   : No active profile set, falling back to 1 default profile: "default"
+2025-12-30T18:59:28.261+03:00  INFO 15836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2025-12-30T18:59:28.303+03:00  INFO 15836 --- [main] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37 ms. Found 4 JPA repository interfaces.
+2025-12-30T18:59:28.752+03:00  INFO 15836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port 8080 (http)
+2025-12-30T18:59:28.761+03:00  INFO 15836 --- [main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2025-12-30T18:59:28.761+03:00  INFO 15836 --- [main] o.apache.catalina.core.StandardEngine    : Starting Servlet engine: [Apache Tomcat/10.1.26]
+2025-12-30T18:59:28.812+03:00  INFO 15836 --- [main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2025-12-30T18:59:28.812+03:00  INFO 15836 --- [main] w.s.c.ServletWebServerApplicationContext : Root WebApplicationContext: initialization completed in 1134 ms
+2025-12-30T18:59:28.897+03:00  INFO 15836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2025-12-30T18:59:29.049+03:00  INFO 15836 --- [main] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:maindb user=SA
+2025-12-30T18:59:29.051+03:00  INFO 15836 --- [main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2025-12-30T18:59:29.059+03:00  INFO 15836 --- [main] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:maindb'
+2025-12-30T18:59:29.171+03:00  INFO 15836 --- [main] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2025-12-30T18:59:29.206+03:00  INFO 15836 --- [main] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 6.5.2.Final
+2025-12-30T18:59:29.229+03:00  INFO 15836 --- [main] o.h.c.internal.RegionFactoryInitiator    : HHH000026: Second-level cache disabled
+2025-12-30T18:59:29.445+03:00  INFO 15836 --- [main] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2025-12-30T18:59:30.145+03:00  INFO 15836 --- [main] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2025-12-30T18:59:30.157+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : drop table if exists authors cascade 
+2025-12-30T18:59:30.159+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : drop table if exists books cascade 
+2025-12-30T18:59:30.161+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : drop table if exists comments cascade 
+2025-12-30T18:59:30.161+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : drop table if exists genres cascade 
+2025-12-30T18:59:30.164+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : create table authors (id bigint generated by default as identity, full_name varchar(255) not null unique, primary key (id))
+2025-12-30T18:59:30.172+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : create table books (author_id bigint, genre_id bigint, id bigint generated by default as identity, title varchar(255) not null, primary key (id))
+2025-12-30T18:59:30.173+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : create table comments (book_id bigint, id bigint generated by default as identity, text varchar(1000) not null, primary key (id))
+2025-12-30T18:59:30.173+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : create table genres (id bigint generated by default as identity, name varchar(255) not null unique, primary key (id))
+2025-12-30T18:59:30.175+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : alter table if exists books add constraint FKfjixh2vym2cvfj3ufxj91jem7 foreign key (author_id) references authors
+2025-12-30T18:59:30.186+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : alter table if exists books add constraint FK9hsvoalyniowgt8fbufidqj3x foreign key (genre_id) references genres
+2025-12-30T18:59:30.187+03:00 DEBUG 15836 --- [main] org.hibernate.SQL                        : alter table if exists comments add constraint FK1ey8gegnanvybix5a025vepf4 foreign key (book_id) references books
+2025-12-30T18:59:30.190+03:00  INFO 15836 --- [main] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T18:59:30.583+03:00  WARN 15836 --- [main] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2025-12-30T18:59:30.612+03:00  INFO 15836 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2025-12-30T18:59:31.190+03:00  INFO 15836 --- [main] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 3 endpoints beneath base path '/actuator'
+2025-12-30T18:59:31.257+03:00  INFO 15836 --- [main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port 8080 (http) with context path '/'
+2025-12-30T18:59:31.268+03:00  INFO 15836 --- [main] ru.otus.hw.Application                   : Started Application in 3.989 seconds (process running for 4.452)
+2025-12-30T18:59:31.500+03:00  INFO 15836 --- [RMI TCP Connection(1)-172.16.0.2] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2025-12-30T18:59:31.501+03:00  INFO 15836 --- [RMI TCP Connection(1)-172.16.0.2] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2025-12-30T18:59:31.502+03:00  INFO 15836 --- [RMI TCP Connection(1)-172.16.0.2] o.s.web.servlet.DispatcherServlet        : Completed initialization in 1 ms
+2025-12-30T18:59:31.695+03:00 DEBUG 15836 --- [RMI TCP Connection(3)-172.16.0.2] org.hibernate.SQL                        : select count(*) from books b1_0
+2025-12-30T18:59:33.885+03:00  INFO 15836 --- [SpringApplicationShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2025-12-30T18:59:33.887+03:00  INFO 15836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2025-12-30T18:59:33.889+03:00  INFO 15836 --- [SpringApplicationShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
