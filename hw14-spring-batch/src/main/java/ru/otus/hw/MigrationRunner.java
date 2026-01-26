@@ -25,7 +25,7 @@ public class MigrationRunner implements CommandLineRunner {
 
         try {
             jobLauncher.run(migrationJob, parameters);
-            log.info("Миграция запущена успешно");
+            log.info("Миграция проведена успешно");
         } catch (Exception e) {
             log.error("Ошибка при запуске миграции", e);
         }

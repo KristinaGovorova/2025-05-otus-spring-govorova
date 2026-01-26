@@ -1,4 +1,11 @@
 spring:
+
+  data:
+    mongodb:
+      uri: mongodb://user:password@localhost:27017/migrated_library_db?authSource=admin
+  flyway:
+    enabled: true
+
   batch:
     jdbc:
       initialize-schema: always
@@ -6,19 +13,14 @@ spring:
       enabled: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/library
+    url: jdbc:postgresql://localhost:5432/library_db
     username: user
     password: password
     driver-class-name: org.postgresql.Driver
 
-  sql:
-    init:
-      mode: always
-
   jpa:
-    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.PostgreSQLDialect

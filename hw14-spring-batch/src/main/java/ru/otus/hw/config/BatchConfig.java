@@ -34,9 +34,6 @@ public class BatchConfig {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
-    @Autowired(required = false)
-    private JobExecutionListener jobExecutionListener;
-
     @Bean
     public RepositoryItemReader<BookEntity> reader() {
         return new RepositoryItemReaderBuilder<BookEntity>()
@@ -73,10 +70,8 @@ public class BatchConfig {
 
     @Bean
     public Job migrationJob(JobRepository jobRepository,
-                            Step migrationStep,
-                            JobExecutionListener listener) {
+                            Step migrationStep) {
         return new JobBuilder("migrationJob", jobRepository)
-                .listener(listener)
                 .start(migrationStep)
                 .build();
     }

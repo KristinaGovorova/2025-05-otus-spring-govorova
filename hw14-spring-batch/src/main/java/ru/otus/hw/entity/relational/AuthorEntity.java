@@ -22,7 +22,4 @@ public class AuthorEntity {
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private Set<BookEntity> books = new HashSet<>();
-
-    public AuthorEntity(Object o, String isaacAsimov) {
-    }
 }
